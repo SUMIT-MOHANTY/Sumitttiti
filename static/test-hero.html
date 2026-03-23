@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Test</title>
+    <style>
+        .hero-section[data-hero] {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transition: opacity 0.3s ease;
+        }
+
+        .hero-section[data-hero].hero-visible {
+            opacity: 1;
+        }
+
+        .cta-button {
+            padding: 12px 24px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-indicator:hover {
+            opacity: 1;
+        }
+
+        .content-section {
+            min-height: 100vh;
+            padding: 50px;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section" data-hero>
+        <h1>Welcome to Our Hero Section</h1>
+        <button class="cta-button" data-cta="signup">Sign Up Now</button>
+        <button class="cta-button" data-cta="learn-more">Learn More</button>
+        <div class="scroll-indicator" data-scroll-indicator data-scroll-to="#content">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M7 13l3 3 7-7" />
+            </svg>
+        </div>
+    </section>
+
+    <section id="content" class="content-section">
+        <h2>Content Section</h2>
+        <p>Your hero interactions will be tracked and the interface will behave as expected.</p>
+    </section>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

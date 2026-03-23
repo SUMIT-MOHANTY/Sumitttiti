@@ -1,0 +1,44 @@
+/* Critical Above-the-Fold CSS - Target: < 20KB */
+/* Box model reset for performance */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* Font loading optimization */
+html{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* Critical layout */
+body{display:flex;flex-direction:column;min-height:100vh;background:#fff;color:#222}
+
+/* Header critical styles */
+header{background:#fff;border-bottom:1px solid #e5e5e5;position:sticky;top:0;z-index:100}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;max-width:1200px;margin:0 auto}
+.logo{font-size:1.5rem;font-weight:700;color:#2563eb}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:#374151;text-decoration:none;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#2563eb}
+
+/* Hero section - above the fold */
+.hero{display:flex;align-items:center;justify-content:space-between;padding:4rem 2rem;max-width:1200px;margin:0 auto;flex-wrap:wrap}
+.hero-content{flex:1;min-width:300px}
+.hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:700;margin-bottom:1rem;color:#111}
+.hero p{font-size:1.25rem;color:#6b7280;margin-bottom:2rem}
+.btn-primary{display:inline-block;background:#2563eb;color:#fff;padding:.75rem 1.5rem;border:none;border-radius:.5rem;font-weight:600;text-decoration:none;cursor:pointer;transition:background .2s}
+.btn-primary:hover{background:#1d4ed8}
+
+/* Responsive grid for features */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;padding:4rem 2rem;max-width:1200px;margin:0 auto}
+.feature h3{font-size:1.25rem;font-weight:600;color:#111;margin-bottom:.5rem}
+.feature p{color:#6b7280;line-height:1.5}
+
+/* Loading optimization */
+.lazy{opacity:0;transition:opacity .3s}
+.lazy.loaded{opacity:1}
+
+/* Critical animations - minimal for performance */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.fade-in{animation:fadeIn .3s ease-in}
+
+/* Mobile-first responsive */
+@media (max-width:768px){.nav-links{gap:1rem}.hero{flex-direction:column;text-align:center;padding:2rem 1rem}.features{padding:2rem 1rem}}
+
+/* Print styles - critical for user experience */
+@media print{body{background:#fff;color:#000}.btn-primary,nav{display:none}}

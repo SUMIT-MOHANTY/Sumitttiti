@@ -1,0 +1,20 @@
+{
+  "cssOptimizationConfig": {
+    "targetSize": "20KB",
+    "selectors": {
+      "maxDepth": 3,
+      "avoidElementSelectors": true,
+      "useClassesNotElements": true
+    },
+    "properties": {
+      "useShorthand": true,
+      "removeDuplicates": true,
+      "mergeAdjacent": true
+    },
+    "performance": {
+      "criticalCSS": true,
+      "asyncNonCritical": true,
+      "preloadFonts": true
+    }
+  }
+}
