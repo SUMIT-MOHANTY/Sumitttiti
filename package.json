@@ -1,0 +1,12 @@
+{
+  "name": "gcp-cloudrun-hsts",
+  "version": "1.0.0",
+  "description": "Secure Cloud Run deployment with HTTPS and HSTS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
