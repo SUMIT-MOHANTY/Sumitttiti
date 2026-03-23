@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Landing Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Flask Landing Page</h1>
+    </header>
+
+    <main>
+        <div class="hero-section">
+            <h2>Modern. Scalable. Ready for GCP.</h2>
+            <p>This is a production-ready landing page template built with Flask.</p>
+            <button onclick="testAPI()">Test API</button>
+        </div>
+
+        <div id="response-box" style="display: none;">
+            <h3>API Response:</h3>
+            <pre id="response-content"></pre>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
