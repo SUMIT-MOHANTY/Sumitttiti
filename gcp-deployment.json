@@ -1,0 +1,30 @@
+{
+  "kind": "Service",
+  "apiVersion": "serving.knative.dev/v1",
+  "metadata": {
+    "name": "{{SERVICE_NAME}}",
+    "namespace": "{{PROJECT_ID}}"
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "annotations": {
+          "autoscaling.knative.dev/maxScale": "100",
+          "run.googleapis.com/execution-environment": "gen2",
+          "run.googleapis.com/https-only": "true"
+        }
+      },
+      "spec": {
+        "containerConcurrency": 1000,
+        "timeoutSeconds": 300,
+        "containers": [{
+          "image": "gcr.io/{{PROJECT_ID}}/{{IMAGE_NAME}}:latest",
+          "ports": [{"containerPort": 8000}],
+          "resources": {
+            "limits": {"memory": "512Mi", "cpu": "1000m"}
+          }
+        }]
+      }
+    }
+  }
+}

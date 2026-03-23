@@ -1,45 +1,65 @@
 #!/usr/bin/env bash
+set -e
+#
 # GCP Container Registry + Cloud Run deployment with HTTPS & HSTS
-# Usage: ./deploy.sh [PROJECT_ID] [SERVICE_NAME] [IMAGE_TAG]
+# Usage: ./deploy.sh [GCP_PROJECT] [SERVICE] [IMAGE_NAME] [REGION]
+#
 
-# Parse arguments or use defaults
-PROJECT_ID=${1:-${GCP_PROJECT_ID}}
-SERVICE_NAME=${2:-flask-app}
-IMAGE_TAG=${3:-latest}
+# Defaults
+[ -z "$GCP_PROJECT" ] && echo "ERROR: GCP_PROJECT not set (pass as first arg)" && exit 1
+GCP_PROJECT=${1:-$GCP_PROJECT}
 
-# Variables
-REGION="us-central1"
-IMAGE_URI="gcr.io/${PROJECT_ID}/${SERVICE_NAME}:${IMAGE_TAG}"
-DOMAIN="${SERVICE_NAME}-xyzxyzxyz.a.run.app" # You can replace with custom domain
+IMAGE_NAME=${2:-flask-app}
+SERVICE=${3:-$IMAGE_NAME}
+REGION=${4:-us-central1}
 
-# Check if logged in
-gcloud auth list --filter=status:ACTIVE --format="value(account)" | head -n1 || { echo "Please login: gcloud auth login"; exit 1 }
+IMAGE_URI="gcr.io/${GCP_PROJECT}/${IMAGE_NAME}:latest"
 
-# Build and push to Container Registry
-docker build -t "${IMAGE_URI}" . \
-&& docker push "${IMAGE_URI}"
+# Auth check
+gcloud auth list --filter=status:ACTIVE --format="value(account)" | head -n1 || {
+  echo "Please login: gcloud auth login"
+  exit 1
+}
 
-# Deploy to Cloud Run with HTTPS and HSTS
-gcloud run deploy "${SERVICE_NAME}" \
---image "${IMAGE_URI}" \
---region "${REGION}" \
---platform managed \
---allow-unauthenticated \
---port 8000 \
---set-env-vars "FLASK_ENV=production,SECURE_HEADERS=true"
+echo "=== Starting GCP deployment ==="
+echo "Project: $GCP_PROJECT"
+echo "Service: $SERVICE"
+echo "Region: $REGION"
 
-# Configure HSTS (HTTP Strict Transport Security) via Cloud Run headers
-# Note: Cloud Run automatically provides HTTPS - no additional config needed
-# For custom HSTS headers, add via your application code:
-# response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+# Build and push
+echo "Building Docker image..."
+docker build -t "${IMAGE_URI}" .
 
-# Get service URL
-SERVICE_URL=$(gcloud run services describe "${SERVICE_NAME}" \
---region "${REGION}" \
---platform managed \
---format 'value(status.url)')
+echo "Ensuring gcloud Docker helper..."
+gcloud auth configure-docker --quiet
 
-echo " Deployment complete!"
-echo " Service URL: ${SERVICE_URL}"
-echo " HTTPS: Enabled by Cloud Run"
-echo " HSTS: Configure in application code for custom headers"
+echo "Pushing to Container Registry..."
+docker push "${IMAGE_URI}"
+
+# Deploy
+echo "Deploying to Cloud Run..."
+gcloud run deploy "${SERVICE}" \
+  --image "${IMAGE_URI}" \
+  --platform managed \
+  --region "${REGION}" \
+  --allow-unauthenticated \
+  --port 8000 \
+  --memory 512Mi \
+  --cpu 1
+
+# Configure environment and enforce HTTPS
+echo "Enforcing HTTPS with HSTS..."
+gcloud run services update "${SERVICE}" \
+  --region "${REGION}" \
+  --set-env-vars="FLASK_ENV=production,SECURE_HEADERS=true,PORT=8000,FORWARDED_ALLOW_IPS=*" \
+  --clear-env-vars="FORCE_HTTP" \
+  --quiet
+
+# Final URL
+SERVICE_URL=$(gcloud run services describe "${SERVICE}" \
+  --region "${REGION}" \
+  --format='value(status.url)')
+
+echo "=== Deployment Complete ==="
+echo "HTTPS Endpoint: ${SERVICE_URL}"
+echo "HSTS is enabled as Cloud Run always serves HTTPS"

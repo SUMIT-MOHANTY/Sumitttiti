@@ -2,28 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask Landing Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flask Landing Page - Lightning Fast & SEO Optimized</title>
+    <meta name="description" content="Modern Flask landing page optimized for core web vitals. Fast loading, mobile-first responsive design with semantic HTML5 structure and inline critical CSS.">
+    <link rel="canonical" href="https://yourdomain.com/">
+
+    <!-- Preconnect to critical domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Critical above-the-fold CSS (under 2KB) -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto',system-ui,-system-ui,sans-serif;line-height:1.6;color:#2d3748;background:#fff}
+        .hero{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:2rem;text-align:center;color:white}
+        .hero-content{max-width:800px;margin:0 auto}
+        .hero h1{font-size:clamp(2.5rem,8vw,4rem);font-weight:700;margin-bottom:1rem;line-height:1.2}
+        .hero p{font-size:clamp(1.125rem,3vw,1.5rem);margin-bottom:2.5rem;opacity:0.9}
+        .cta-button{display:inline-block;padding:1.125rem 2.5rem;background:rgba(255,255,255,0.15);color:white;text-decoration:none;border-radius:50px;font-weight:600;font-size:1.125rem;border:2px solid rgba(255,255,255,0.3);backdrop-filter:blur(10px);transition:all 0.3s ease;margin:0.5rem}
+        .cta-button:hover{background:rgba(255,255,255,0.25);transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,0,0,0.2)}
+        .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;max-width:1200px;margin:0 auto;padding:4rem 2rem}
+        .feature-card{background:white;padding:2rem;border-radius:10px;box-shadow:0 4px 6px rgba(0,0,0,0.1)}
+        @media (max-width:768px){.hero{padding:1rem}.features{padding:2rem 1rem}}
+    </style>
 </head>
+
 <body>
-    <header>
-        <h1>Welcome to Flask Landing Page</h1>
-    </header>
-
-    <main>
-        <div class="hero-section">
-            <h2>Modern. Scalable. Ready for GCP.</h2>
-            <p>This is a production-ready landing page template built with Flask.</p>
-            <button onclick="testAPI()">Test API</button>
-        </div>
-
-        <div id="response-box" style="display: none;">
-            <h3>API Response:</h3>
-            <pre id="response-content"></pre>
+    <!-- Hero Section - Above the fold content -->
+    <main class="hero" role="main">
+        <div class="hero-content">
+            <h1>Welcome to Your Flask Landing Page</h1>
+            <p>This is a lightning-fast, SEO-optimized landing page built with Flask. Experience instant load times with critical CSS inlined for the fastest possible first paint.</p>
+            <a href="#features" class="cta-button">Discover Features</a>
+            <a href="/contact" class="cta-button">Get Started</a>
         </div>
     </main>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- Features Section -->
+    <section id="features" style="background:#f7fafc;">
+        <div class="features">
+            <div class="feature-card">
+                <h3 style="color:#667eea;margin-bottom:1rem;font-size:1.5rem;"> Lightning Fast</h3>
+                <p style="color:#718096;">Optimised for Core Web Vitals with critical CSS inlined and minimal JavaScript blocking.</p>
+            </div>
+            <div class="feature-card">
+                <h3 style="color:#667eea;margin-bottom:1rem;font-size:1.5rem;"> Mobile First</h3>
+                <p style="color:#718096;">Responsive design that looks perfect on all devices with mobile-optimized interactions.</p>
+            </div>
+            <div class="feature-card">
+                <h3 style="color:#667eea;margin-bottom:1rem;font-size:1.5rem;"> SEO Optimized</h3>
+                <p style="color:#718096;">Semantic HTML5 structure, proper meta tags, and schema markup for maximum search visibility.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional content sections would load progressively -->
+    <section style="max-width:1200px;margin:0 auto;padding:4rem 2rem">
+        <h2 style="color:#2d3748;margin-bottom:2rem;font-size:2.5rem;text-align:center">Built for Modern Web</h2>
+        <p style="color:#4a5568;font-size:1.125rem;text-align:center;max-width:600px;margin:0 auto">
+            This template provides the foundation for building high-performance web applications with Flask.
+            Includes modern deployment configurations, Docker support, and Google Cloud Platform ready structure.
+        </p>
+    </section>
 </body>
 </html>

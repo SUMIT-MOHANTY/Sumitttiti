@@ -1,8 +1,6 @@
-FROM node:18-alpine
+FROM python:3.11-slim
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-EXPOSE 8080
-ENV PORT=8080
-CMD ["node", "server.js"]
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY src/ ./src/
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
